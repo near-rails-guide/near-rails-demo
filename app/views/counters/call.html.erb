@@ -1,0 +1,13 @@
+<%= render template: 'counters/show' %>
+<h4>smart contract logs</h4>
+<ol>
+  <% (@result&.dig('result', 'receipts_outcome')&.first&.dig('outcome', 'logs') || []).each do |log| %>
+    <li>
+      <%= log %>
+    </li>
+  <% end %>
+</ol>
+<h4>raw response</h4>
+<pre>
+  <%= JSON.pretty_generate(@result) %>
+</pre>

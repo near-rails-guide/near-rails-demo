@@ -1,0 +1,10 @@
+<%= form_tag call_counter_path do %>
+  <%= label_tag 'contract name' %>
+  <%= text_field_tag :contract_name, @contract_name %>
+  <%= submit_tag 'Call' %>
+<% end %>
+<%= form_tag double_call_counter_path do %>
+  <%= label_tag 'contract name' %>
+  <%= text_field_tag :contract_name, @contract_name %>
+  <%= submit_tag 'Double Call' %>
+<% end %>
