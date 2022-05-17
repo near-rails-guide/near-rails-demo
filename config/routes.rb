@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: redirect('/counter')
 
   resource :counter, only: :show do
+    post :deploy
     post :call
     post :double_call
   end

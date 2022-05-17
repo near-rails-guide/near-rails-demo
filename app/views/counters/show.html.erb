@@ -1,10 +1,33 @@
+<h2>Deploy contract</h2>
+<%= form_tag deploy_counter_path, enctype: "multipart/form-data" do %>
+  <%= label_tag 'contract name' %>
+  <%= text_field_tag :contract_name, @contract_name, placeholder: 'test.testnet' %>
+  <%= label_tag 'keypair', 'Keypair(Private key)', placeholder: 'ed25519:xxxx' %>
+  <%= text_field_tag :key_pair, @key_pair %>
+  <%= label_tag 'contract', 'Contract(rust_counter_tutorial.wasm)' %>
+  <%= file_field_tag :contract %>
+  <%= submit_tag 'Upload' %>
+<% end %>
+<% if @deploy_result %>
+  <h4>raw response</h4>
+  <pre>
+  <%= JSON.pretty_generate(@deploy_result) %>
+</pre>
+<% end %>
+<hr/>
+<h2>Call contract</h2>
 <%= form_tag call_counter_path do %>
   <%= label_tag 'contract name' %>
   <%= text_field_tag :contract_name, @contract_name %>
+  <%= label_tag 'keypair', 'Keypair(Private key)', placeholder: 'ed25519:xxxx' %>
+  <%= text_field_tag :key_pair, @key_pair %>
   <%= submit_tag 'Call' %>
 <% end %>
+<hr/>
 <%= form_tag double_call_counter_path do %>
   <%= label_tag 'contract name' %>
   <%= text_field_tag :contract_name, @contract_name %>
+  <%= label_tag 'keypair', 'Keypair(Private key)', placeholder: 'ed25519:xxxx' %>
+  <%= text_field_tag :key_pair, @key_pair %>
   <%= submit_tag 'Double Call' %>
 <% end %>
