@@ -1,0 +1,11 @@
+<% if current_user %>
+  Hello <%= current_user.account_id %>
+  <div><%= link_to 'Logout', logout_path %></div>
+<% else %>
+  <%= form_tag login_path, method: :post, id: 'login_form' do %>
+    <input type="hidden" name="public_key" />
+    <input type="hidden" name="signature" />
+    <input type="hidden" name="account_id" />
+    <input type="submit" value="Login">
+  <% end  %>
+<% end %>

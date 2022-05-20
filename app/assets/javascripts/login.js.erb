@@ -1,0 +1,51 @@
+const nearConfig = {
+  nodeUrl: '<%= ENV.fetch('NEAR_NODE_URL') %>',
+  networkId: '<%= ENV.fetch('NEAR_NETWORK_ID') %>',
+  walletUrl: '<%= ENV.fetch('NEAR_WALLET_URL') %>',
+  contractName: '<%= ENV.fetch('NEAR_CONTRACT_NAME') %>'
+}
+
+async function walletLogin() {
+  const keyStore = new nearApi.keyStores.BrowserLocalStorageKeyStore();
+  const near = await nearApi.connect({keyStore, ...nearConfig});
+  const walletConnection = new nearApi.WalletConnection(near);
+
+  walletConnection.requestSignIn({
+    contractId: nearConfig.contractName,
+    successUrl: '<%= Rails.application.routes.url_helpers.login_url %>',
+    failureUrl: '<%= Rails.application.routes.url_helpers.login_url %>'
+  })
+}
+
+function backendLogin(form, accountId, keyPair) {
+  const {signature} = keyPair.sign(new TextEncoder().encode(accountId))
+  form.elements['public_key'].value = nearApi.utils.serialize.base_encode(keyPair.getPublicKey().data)
+  form.elements['signature'].value = nearApi.utils.serialize.base_encode(signature)
+  form.elements['account_id'].value = accountId
+  form.submit()
+}
+
+window.onload = async () => {
+  const form = document.getElementById('login_form')
+  if (!form) return
+
+  const accountId = new URLSearchParams(window.location.search).get('account_id')
+
+  const keyStore = new nearApi.keyStores.BrowserLocalStorageKeyStore();
+  const near = await nearApi.connect({keyStore, ...nearConfig});
+  const walletConnection = new nearApi.WalletConnection(near);
+  await new Promise(function(resolve) { setTimeout(resolve, 100) })
+  const keyPair = await keyStore.getKey(nearConfig.networkId, accountId)
+
+  if (keyPair && accountId)  return backendLogin(form, accountId, keyPair)
+
+  form.onsubmit = async (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!walletConnection.getAccountId()) return walletLogin()
+    const keyPair = await keyStore.getKey(nearConfig.networkId, walletConnection.getAccountId())
+    if (!keyPair) return walletLogin()
+
+    backendLogin(form, walletConnection.getAccountId(), keyPair)
+  }
+}

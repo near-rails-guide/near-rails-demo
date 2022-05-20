@@ -1,24 +1,21 @@
-# README
+Rails NEAR protocol demo includes:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## [Demo Login](https://github.com/near-rails-guide/near-rails-demo/wiki/Login-with-NEAR)
+![](https://github.com/near-rails-guide/near-rails-demo/wiki/images/login.gif)
 
-Things you may want to cover:
 
-* Ruby version
+## [Demo smart contract call](https://github.com/near-rails-guide/near-rails-demo/wiki/Call-smart-contract)
+![](https://github.com/near-rails-guide/near-rails-demo/wiki/images/smart_contract.gif)
 
-* System dependencies
+# Install
 
-* Configuration
+```
+git clone https://github.com/near-rails-guide/near-rails-demo.git
+cd near-rails-demo
+bundle install
+rails s
+open http://localhost:3000
+``` 
 
-* Database creation
+[Guide](https://github.com/near-rails-guide/near-rails-demo/wiki)
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

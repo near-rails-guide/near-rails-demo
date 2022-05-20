@@ -33,5 +33,7 @@ module NearRailsTransactionDemo
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    Rails.application.routes.default_url_options[:host]= 'localhost:3000'
+    Rails.application.routes.default_url_options[:port]= 3000
   end
 end
